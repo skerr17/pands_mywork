@@ -7,6 +7,8 @@ def displayMenu():
     print('What would you like to do?')
     print('(a) Add  new student')
     print('(v) View')
+    print('(s) Save')
+    print('(l) Load')
     print('(q) Quit')
     choice = input('Type one letter (a/v/q):')
     return choice
@@ -47,6 +49,26 @@ def doView(students):
         for module in student['modules']:
             print(f"\tModule: {module['module_name']}, Grade: {module['grade']}")
 
+
+# import json
+import json 
+
+
+# function to save the student data to a file
+def do_save(students):
+    with open('students.json','wt') as f:
+        json.dump(students,f)
+    print('students saved')
+
+
+# Function to load the student data from a file
+def do_load():
+    try:
+        with open('students.json','rt') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
 # Main program
 # Test the function
 students = []
@@ -56,6 +78,10 @@ while(choice != 'q'):
         doAdd(students)
     elif choice == 'v':
         doView(students)
+    elif choice == 's':
+        do_save(students)
+    elif choice == 'l':
+        students = do_load()
     elif choice != 'q':
         print('\n\nplease select either a, v or q')
     choice = displayMenu()
